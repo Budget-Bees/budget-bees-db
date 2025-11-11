@@ -22,9 +22,9 @@ liquibase {
   activities {
     main {
       changelogFile "src/main/resources/db/changelog/db.changelog-master.yml"
-      url "jdbc:postgresql://localhost:5432/budget_bees"
-      username "budget_bees"
-      password "budget_bees"
+      url System.getenv('LIQUIBASE_URL') ?: "jdbc:postgresql://localhost:5432/budget_bees"
+      username System.getenv('LIQUIBASE_USERNAME') ?:  "budget_bees"
+      password System.getenv('LIQUIBASE_PASSWORD') ?: "budget_bees"
     }
   }
 }
