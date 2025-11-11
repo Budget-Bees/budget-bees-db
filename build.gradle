@@ -1,0 +1,41 @@
+plugins {
+	id 'java'
+	id 'org.liquibase.gradle' version '2.2.0'
+}
+
+group = 'com.budget-bees-db'
+version = '0.0.1-SNAPSHOT'
+description = 'DB for Expence Management '
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+liquibase {
+  runList = 'main'
+  activities {
+    main {
+      changelogFile "db/changelog/db.changelog-master.yml"
+      url "jdbc:postgresql://localhost:5432/budget_bees"
+      username "budget_bees"
+      password "budget_bees"
+    }
+  }
+}
+
+tasks.register('liquibaseUpdate') {
+  dependsOn 'update'
+}
+
+dependencies {
+	liquibaseRuntime 'org.liquibase:liquibase-core:4.29.2'
+  liquibaseRuntime 'info.picocli:picocli:4.7.6'
+  liquibaseRuntime 'org.apache.commons:commons-lang3:3.14.0'
+  liquibaseRuntime 'org.postgresql:postgresql:42.7.3'
+}

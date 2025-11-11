@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 11-11-2025-init-tables
+      author: nuwan.samarasinghe
+      changes:
+        - sqlFile:
+            path: ../sql/11-11-2025-init-tables/apply.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sqlFile:
+            path: ../sql/11-11-2025-init-tables/rollback.sql
+            relativeToChangelogFile: true
