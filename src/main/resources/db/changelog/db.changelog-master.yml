@@ -1,6 +1,6 @@
 databaseChangeLog:
-  - logicalFilePath: db/changelog/db.changelog-master.yaml
+  - logicalFilePath: src/main/resources/db/changelog/db.changelog-master.yaml
 
   - includeAll:
-      path: db/changelog/changesets
+      path: changesets
       relativeToChangelogFile: true

@@ -21,12 +21,20 @@ liquibase {
   runList = 'main'
   activities {
     main {
-      changelogFile "db/changelog/db.changelog-master.yml"
+      changelogFile "src/main/resources/db/changelog/db.changelog-master.yml"
       url "jdbc:postgresql://localhost:5432/budget_bees"
       username "budget_bees"
       password "budget_bees"
     }
   }
+}
+
+tasks.named('rollbackCount') {
+    doFirst {
+        if (!project.hasProperty('liquibaseRollbackCount') && !project.hasProperty('liquibaseCommandValue')) {
+            project.ext.set('liquibaseCommandValue', '1')
+        }
+    }
 }
 
 tasks.register('liquibaseUpdate') {
