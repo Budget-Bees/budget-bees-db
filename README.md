@@ -1,60 +1,55 @@
-# 🐝 Budget Bees DB
+# Budget Bees Database
 
-A simple and efficient database management project for **Budget Bees**, built using **Gradle**.  
-This project automates build, update, and rollback operations to keep your database migrations clean and consistent.
+This project manages the database schema migrations for the Budget Bees application using Liquibase.
 
----
+## Structure
 
-## 🧱 Project Setup
+- `src/main/resources/db/changelog/db.changelog-master.yaml`: The master Changelog file that aggregates all changes.
+- `src/main/resources/db/changelog/changes`: Directory containing individual YAML migration files.
 
+## Prerequisites
 
-## ⚙️ Build the Project
+- **Java 21** or higher
+- **Maven** (A Maven Wrapper `mvnw` is included)
 
-Clean and build the project with Gradle:
+## Usage
 
-```bash
-./gradlew clean build
-```
+### Running Migrations Manually
 
-This will compile the project, run tests, and prepare all necessary build artifacts.
-
----
-
-## 🔄 Database Migrations
-
-### Update the Database
-To apply the latest migration scripts to your database:
+To run migrations against a specific database, you can use the Maven Liquibase plugin. configuration is typically passed via command line arguments or a properties file.
 
 ```bash
-./gradlew update
+./mvnw liquibase:update \
+  -Dliquibase.url=jdbc:postgresql://localhost:5432/budget_bees \
+  -Dliquibase.username=your_username \
+  -Dliquibase.password=your_password
 ```
 
----
+### Integration with API
 
-### Rollback Changes
-To revert the most recent database migration:
+The `budget-bees-api` project references this directory to run migrations automatically during integration tests using Testcontainers.
 
-```bash
-./gradlew rollbackCount
+## Creating a New Migration
+
+1. Create a new YAML file in `src/main/resources/db/changelog/changes/` (e.g., `003-create-new-table.yaml`).
+2. Define your changeset.
+3. Include the new file in `src/main/resources/db/changelog/db.changelog-master.yaml`.
+
+Example Changeset:
+
+```yaml
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: your-name
+      changes:
+        - createTable:
+            tableName: example_table
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
 ```
-
-> **Note:**  
-> `rollbackCount` is set to **rollback one change at a time**.  
-> Run the command multiple times to roll back additional versions incrementally.
-
----
-
-## 🧩 Tips
-- Always run `./gradlew clean build` before applying or rolling back migrations.
-- Keep your migration scripts organized in the `resources/db/migration` directory.
-- Use version control to track all migration and rollback changes.
-
----
-
-## 🐝 License
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-### 💬 About
-Budget Bees DB is part of the **Budget Bees** suite — lightweight tools for personal budgeting.
