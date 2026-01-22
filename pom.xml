@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.budget-bees</groupId>
+  <artifactId>budget-bees-db</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>budget-bees-db</name>
+  <description>Database migration for Budget Bees</description>
+  <properties>
+    <java.version>21</java.version>
+    <liquibase.version>4.25.1</liquibase.version>
+    <postgresql.version>42.7.1</postgresql.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.liquibase</groupId>
+      <artifactId>liquibase-core</artifactId>
+      <version>${liquibase.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>${postgresql.version}</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-maven-plugin</artifactId>
+        <version>${liquibase.version}</version>
+        <configuration>
+          <changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
+          <url>${env.LIQUIBASE_URL}</url>
+          <username>${env.LIQUIBASE_USERNAME}</username>
+          <password>${env.LIQUIBASE_PASSWORD}</password>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
